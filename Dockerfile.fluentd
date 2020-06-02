@@ -39,7 +39,7 @@ FROM ruby:2.7-slim-buster
 #     apk add systemd && \
 COPY --from=fluentd /usr/local/bundle/ /usr/local/bundle 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libjemalloc2 && \
+    apt-get install -y --no-install-recommends libjemalloc2 python&& \
     apt-get clean -y && \
     rm -rf \
         /var/cache/debconf/* \
