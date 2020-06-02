@@ -8,7 +8,7 @@ WORKDIR $PILOT_DIR
 COPY . $PILOT_DIR
 RUN go install 
 
-FROM debian:buster-slim
+FROM alpine:3.6
 COPY assets/glibc/glibc-2.26-r0.apk /tmp/
 RUN apk update && \ 
     apk add python && \
