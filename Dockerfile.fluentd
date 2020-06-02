@@ -12,8 +12,6 @@ FROM ruby:2.7-slim-buster as fluentd
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-COPY Gemfile /Gemfile
-
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
 RUN apt-get update && \
