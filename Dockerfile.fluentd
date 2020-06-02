@@ -25,7 +25,7 @@ RUN apk update && \
     gem install fluent-plugin-remote_syslog -v ">=0.2.1" --no-ri --no-rdoc && \
     gem install fluent-plugin-kafka --no-ri --no-rdoc && \
     gem install fluent-plugin-flowcounter --no-ri --no-rdoc && \
-    gem install fluent-plugin-systemd -v 1.0.1 && \
+    gem install fluent-plugin-systemd -v 1.0.1 --no-ri --no-rdoc && \
     apk del build-base ruby-dev && \
     rm -rf /root/.gem && \
     apk add curl openssl && \
