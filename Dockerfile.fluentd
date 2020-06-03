@@ -27,10 +27,9 @@ RUN apt-get update && \
     gem install fluent-plugin-flowcounter  && \
     gem install fluent-plugin-systemd -v 1.0.1
 
-FROM ruby:2.7-slim-buster
+FROM debian:buster-slim
 COPY --from=fluentd /usr/local/bundle/ /usr/local/bundle 
-RUN rm -rf /usr/bin/env && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends libjemalloc2 python&& \
     apt-get clean -y && \
     rm -rf \
