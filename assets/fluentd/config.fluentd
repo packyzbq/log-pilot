@@ -49,7 +49,7 @@ cat >> $FLUENTD_CONFIG << EOF
 ${FLUENTD_LOG_LEVEL:+@log_level $FLUENTD_LOG_LEVEL}
 </system>
 EOF
-if [ "$FLUENTD_ENABLE_MONITOR" == "true" ]; then
+if [[ "$FLUENTD_ENABLE_MONITOR" == "true" ]]; then
 cat >> $FLUENTD_CONFIG << EOF
 <source>
     @type monitor_agent
@@ -61,12 +61,12 @@ fi
 }
 
 es(){
-if [ -f "/run/secrets/es_credential" ];then
+if [[ -f "/run/secrets/es_credential" ]];then
     ELASTICSEARCH_USER=$(cat /run/secrets/es_credential | awk -F":" '{ print $1 }')
     ELASTICSEARCH_PASSWORD=$(cat /run/secrets/es_credential | awk -F":" '{ print $2 }')
 fi
 
-if [ -z "$ELASTICSEARCH_HOSTS" ]; then
+if [[ -z "$ELASTICSEARCH_HOSTS" ]]; then
     assert_not_empty "$ELASTICSEARCH_HOST" "ELASTICSEARCH_HOST required"
     assert_not_empty "$ELASTICSEARCH_PORT" "ELASTICSEARCH_PORT required"
     ELASTICSEARCH_HOSTS="$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT"
@@ -230,7 +230,7 @@ aggregate all
 EOF
 }
 
-if [ -n "$FLUENTD_OUTPUT" ]; then
+if [[ -n "$FLUENTD_OUTPUT" ]]; then
     LOGGING_OUTPUT="$FLUENTD_OUTPUT"
 fi
 
