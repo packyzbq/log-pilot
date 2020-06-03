@@ -8,8 +8,11 @@ WORKDIR $PILOT_DIR
 COPY . $PILOT_DIR
 RUN go install 
 
+FROM ruby:2.7-slim-buster as systemd
+
 FROM alpine:3.6
 COPY assets/glibc/glibc-2.26-r0.apk /tmp/
+COPY --from=systemd /lib/x86_64-linux-gnu/ /lib/x86_64-linux-gnu/ 
 RUN apk update && \ 
     apk add python && \
     apk add ruby-json ruby-irb && \
@@ -25,6 +28,7 @@ RUN apk update && \
     gem install fluent-plugin-remote_syslog -v ">=0.2.1" --no-ri --no-rdoc && \
     gem install fluent-plugin-kafka --no-ri --no-rdoc && \
     gem install fluent-plugin-flowcounter --no-ri --no-rdoc && \
+    gem install fluent-plugin-systemd -v 1.0.1 --no-ri --no-rdoc && \
     apk del build-base ruby-dev && \
     rm -rf /root/.gem && \
     apk add curl openssl && \
