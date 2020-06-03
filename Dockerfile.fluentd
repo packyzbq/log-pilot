@@ -8,11 +8,8 @@ WORKDIR $PILOT_DIR
 COPY . $PILOT_DIR
 RUN go install 
 
-FROM ruby:2.7-slim-buster as ruby
-
 FROM alpine:3.6
 COPY assets/glibc/glibc-2.26-r0.apk /tmp/
-COPY --from=ruby /lib /lib
 RUN apk update && \ 
     apk add python && \
     apk add ruby-json ruby-irb && \
