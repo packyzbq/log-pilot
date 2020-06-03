@@ -28,15 +28,6 @@ RUN apt-get update && \
     gem install fluent-plugin-systemd -v 1.0.1
 
 FROM ruby:2.7-slim-buster
-# COPY assets/glibc/glibc-2.26-r0.apk /tmp/
-# RUN apk update && \ 
-#     apk add python && \
-#     apk add ruby-json ruby-irb && \
-#     apk add build-base ruby-dev && \
-#     apk add python && \
-#     apk add lsof && \
-#     apk add ca-certificates wget && \
-#     apk add systemd && \
 COPY --from=fluentd /usr/local/bundle/ /usr/local/bundle 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libjemalloc2 python&& \
