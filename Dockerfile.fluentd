@@ -9,32 +9,50 @@ COPY . $PILOT_DIR
 RUN go install 
 
 FROM ruby:2.7-slim-buster as systemd
+SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
-FROM alpine:3.6
-COPY assets/glibc/glibc-2.26-r0.apk /tmp/
-COPY --from=systemd /lib/x86_64-linux-gnu/ /lib/x86_64-linux-gnu/ 
-COPY --from=systemd /lib/x86_64-linux-gnu/ /usr/lib/x86_64-linux-gnu/ 
-RUN apk update && \ 
-    apk add python && \
-    apk add ruby-json ruby-irb && \
-    apk add build-base ruby-dev && \
-    apk add python && \
-    apk add lsof && \
-    apk add ca-certificates wget && \
-    gem install fluentd -v 1.2.6 --no-ri --no-rdoc && \
-    gem install fluent-plugin-elasticsearch -v ">=2.0.0" --no-ri --no-rdoc && \
-    gem install gelf -v "~> 3.0.0" --no-ri --no-rdoc && \
-    gem install aliyun_sls_sdk -v ">=0.0.9" --no-ri --no-rdoc && \
-    gem install remote_syslog_logger -v ">=1.0.1" --no-ri --no-rdoc && \
-    gem install fluent-plugin-remote_syslog -v ">=0.2.1" --no-ri --no-rdoc && \
-    gem install fluent-plugin-kafka --no-ri --no-rdoc && \
-    gem install fluent-plugin-flowcounter --no-ri --no-rdoc && \
-    gem install fluent-plugin-systemd -v 1.0.1 --no-ri --no-rdoc && \
-    apk del build-base ruby-dev && \
-    rm -rf /root/.gem && \
-    apk add curl openssl && \
-    apk add --allow-untrusted /tmp/glibc-2.26-r0.apk && \
-    rm -rf /tmp/glibc-2.26-r0.apk
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends g++ gcc make && \
+    echo 'gem: --no-document' >> /etc/gemrc && \
+    gem install --file Gemfile
+
+FROM ruby:2.7-slim-buster
+COPY --from=systemd /usr/local/bundle/ /usr/local/bundle 
+# COPY assets/glibc/glibc-2.26-r0.apk /tmp/
+# COPY --from=systemd /lib/x86_64-linux-gnu/ /lib/x86_64-linux-gnu/ 
+# COPY --from=systemd /lib/x86_64-linux-gnu/ /usr/lib/x86_64-linux-gnu/ 
+# RUN apk update && \ 
+#     apk add python && \
+#     apk add ruby-json ruby-irb && \
+#     apk add build-base ruby-dev && \
+#     apk add python && \
+#     apk add lsof && \
+#     apk add ca-certificates wget && \
+#     gem install fluentd -v 1.2.6 --no-ri --no-rdoc && \
+#     gem install fluent-plugin-elasticsearch -v ">=2.0.0" --no-ri --no-rdoc && \
+#     gem install gelf -v "~> 3.0.0" --no-ri --no-rdoc && \
+#     gem install aliyun_sls_sdk -v ">=0.0.9" --no-ri --no-rdoc && \
+#     gem install remote_syslog_logger -v ">=1.0.1" --no-ri --no-rdoc && \
+#     gem install fluent-plugin-remote_syslog -v ">=0.2.1" --no-ri --no-rdoc && \
+#     gem install fluent-plugin-kafka --no-ri --no-rdoc && \
+#     gem install fluent-plugin-flowcounter --no-ri --no-rdoc && \
+#     gem install fluent-plugin-systemd -v 1.0.1 --no-ri --no-rdoc && \
+#     apk del build-base ruby-dev && \
+#     rm -rf /root/.gem && \
+#     apk add curl openssl && \
+#     apk add --allow-untrusted /tmp/glibc-2.26-r0.apk && \
+#     rm -rf /tmp/glibc-2.26-r0.apk
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libjemalloc2 python&& \
+    apt-get clean -y && \
+    ulimit -n 65536 && \    
+    rm -rf \
+        /var/cache/debconf/* \
+        /var/lib/apt/lists/* \
+        /var/log/* \
+        /var/tmp/* \
+        rm -rf /tmp/*
 
 COPY --from=builder /go/bin/log-pilot /pilot/pilot
 COPY assets/entrypoint assets/fluentd/ assets/healthz /pilot/
@@ -48,5 +66,4 @@ VOLUME /etc/fluentd/conf.d
 VOLUME /pilot/pos
 WORKDIR /pilot/
 ENV PILOT_TYPE=fluentd
-ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libsystemd.so.0
-ENTRYPOINT ["/pilot/entrypoint"]
+CMD ["python","/pilot/entrypoint.py"]
