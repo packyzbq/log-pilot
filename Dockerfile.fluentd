@@ -14,7 +14,15 @@ SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 RUN apt-get update && \
     apt-get install -y --no-install-recommends g++ gcc make && \
     echo 'gem: --no-document' >> /etc/gemrc && \
-    gem install --file Gemfile
+    gem install fluentd -v 1.2.6  && \
+    gem install fluent-plugin-elasticsearch -v ">=2.0.0"  && \
+    gem install gelf -v "~> 3.0.0"  && \
+    gem install aliyun_sls_sdk -v ">=0.0.9"  && \
+    gem install remote_syslog_logger -v ">=1.0.1"  && \
+    gem install fluent-plugin-remote_syslog -v ">=0.2.1"  && \
+    gem install fluent-plugin-kafka  && \
+    gem install fluent-plugin-flowcounter  && \
+    gem install fluent-plugin-systemd -v 1.0.1  && \
 
 FROM ruby:2.7-slim-buster
 COPY --from=systemd /usr/local/bundle/ /usr/local/bundle 
