@@ -13,6 +13,7 @@ FROM ruby:2.7-slim-buster as systemd
 FROM alpine:3.6
 COPY assets/glibc/glibc-2.26-r0.apk /tmp/
 COPY --from=systemd /lib/x86_64-linux-gnu/ /lib/x86_64-linux-gnu/ 
+COPY --from=systemd /lib/x86_64-linux-gnu/ /usr/lib/x86_64-linux-gnu/ 
 RUN apk update && \ 
     apk add python && \
     apk add ruby-json ruby-irb && \
@@ -47,4 +48,5 @@ VOLUME /etc/fluentd/conf.d
 VOLUME /pilot/pos
 WORKDIR /pilot/
 ENV PILOT_TYPE=fluentd
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libsystemd.so.0
 ENTRYPOINT ["/pilot/entrypoint"]
