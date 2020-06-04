@@ -1,9 +1,9 @@
-FROM golang:1.9-alpine3.6 as builder
+FROM golang:1.13.12-buster as builder
 
 ENV PILOT_DIR /go/src/github.com/AliyunContainerService/log-pilot
 ARG GOOS=linux
 ARG GOARCH=amd64
-RUN set -ex && apk add --no-cache make git
+# RUN set -ex && apk add --no-cache make git
 WORKDIR $PILOT_DIR
 COPY . $PILOT_DIR
 RUN go install 
@@ -21,12 +21,12 @@ RUN apt-get update && \
     echo 'gem: --no-document' >> /etc/gemrc && \
     gem install --file Gemfile
 
-FROM debian:buster-slim
+FROM ruby:2.7-slim-buster
 
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
-
+COPY --from=gem /usr/local/bundle/ /usr/local/bundle 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends ruby libjemalloc2 python && \
+    apt-get install -y --no-install-recommends libjemalloc2 python && \
     apt-get clean -y && \
     ulimit -n 65536 && \    
     rm -rf \
@@ -35,7 +35,6 @@ RUN apt-get update && \
         /var/log/* \
         /var/tmp/* \
         rm -rf /tmp/*
-COPY --from=gem /usr/local/bundle/ /usr/local/bundle 
 COPY --from=builder /go/bin/log-pilot /pilot/pilot
 COPY assets/entrypoint.py assets/fluentd/ assets/healthz /pilot/
 RUN mkdir -p /etc/fluentd && \
