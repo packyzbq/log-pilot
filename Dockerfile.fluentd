@@ -21,12 +21,12 @@ RUN apt-get update && \
     echo 'gem: --no-document' >> /etc/gemrc && \
     gem install --file Gemfile
 
-FROM ruby:2.7-slim-buster
-COPY --from=gem /usr/local/bundle/ /usr/local/bundle 
+FROM debian:buster-slim
+
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libjemalloc2 python && \
+    apt-get install -y --no-install-recommends ruby libjemalloc2 python && \
     apt-get clean -y && \
     ulimit -n 65536 && \    
     rm -rf \
@@ -35,7 +35,7 @@ RUN apt-get update && \
         /var/log/* \
         /var/tmp/* \
         rm -rf /tmp/*
-
+COPY --from=gem /usr/local/bundle/ /usr/local/bundle 
 COPY --from=builder /go/bin/log-pilot /pilot/pilot
 COPY assets/entrypoint.py assets/fluentd/ assets/healthz /pilot/
 RUN mkdir -p /etc/fluentd && \
