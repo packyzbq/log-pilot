@@ -63,7 +63,7 @@ RUN apt-get update && \
         rm -rf /tmp/*
 
 COPY --from=builder /go/bin/log-pilot /pilot/pilot
-COPY assets/entrypoint assets/fluentd/ assets/healthz /pilot/
+COPY assets/entrypoint.py assets/fluentd/ assets/healthz /pilot/
 RUN mkdir -p /etc/fluentd && \
     mv /pilot/plugins /etc/fluentd/ && \
     chmod +x /pilot/pilot /pilot/entrypoint /pilot/healthz /pilot/config.fluentd
