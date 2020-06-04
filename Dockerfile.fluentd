@@ -48,4 +48,5 @@ VOLUME /etc/fluentd/conf.d
 VOLUME /pilot/pos
 WORKDIR /pilot/
 ENV PILOT_TYPE=fluentd
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 CMD ["python","/pilot/entrypoint.py"]
