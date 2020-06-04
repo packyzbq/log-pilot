@@ -46,7 +46,8 @@ COPY --from=builder /go/bin/log-pilot /pilot/pilot
 COPY assets/entrypoint.py assets/fluentd/ assets/healthz /pilot/
 RUN mkdir -p /etc/fluentd && \
     mv /pilot/plugins /etc/fluentd/ && \
-    chmod +x /pilot/pilot /pilot/entrypoint.py /pilot/healthz /pilot/config.fluentd
+    chmod +x /pilot/pilot /pilot/entrypoint.py /pilot/healthz /pilot/config.fluentd &&\
+    mv /usr/local/bundle/bin/fluentd /usr/bin/fluentd
 
 HEALTHCHECK CMD /pilot/healthz
 
