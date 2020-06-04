@@ -8,7 +8,7 @@ WORKDIR $PILOT_DIR
 COPY . $PILOT_DIR
 RUN go install 
 
-FROM alpine:3.6
+FROM packyzbq/alpine:3.6-systemd
 COPY assets/glibc/glibc-2.26-r0.apk /tmp/
 RUN apk update && \ 
     apk add python && \
@@ -17,20 +17,6 @@ RUN apk update && \
     apk add python && \
     apk add lsof && \
     apk add ca-certificates wget && \
-    apk add bash && \
-    apk add git && \
-    cd /tmp && \
-    git clone https://github.com/systemd/systemd && \
-    echo "unicode=\"YES\"" >> /etc/rc.conf && \
-    apk add --no-cache --virtual .build_deps \
-        autoconf file g++ gcc libc-dev make pkgconf python3 ninja \
-        util-linux pciutils usbutils coreutils binutils findutils grep \
-        build-base gcc abuild binutils binutils-doc gcc-doc gperf libcap libcap-dev \
-        valgrind-dev && \
-    pip3 install meson && \
-    cd /tmp/systemd && \
-    meson build && \
-    ninja build && \
     gem install fluentd -v 1.2.6 --no-ri --no-rdoc && \
     gem install fluent-plugin-elasticsearch -v ">=2.0.0" --no-ri --no-rdoc && \
     gem install gelf -v "~> 3.0.0" --no-ri --no-rdoc && \
