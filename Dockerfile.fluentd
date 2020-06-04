@@ -22,7 +22,7 @@ RUN apt-get update && \
     gem install fluent-plugin-remote_syslog -v ">=0.2.1"  && \
     gem install fluent-plugin-kafka  && \
     gem install fluent-plugin-flowcounter  && \
-    gem install fluent-plugin-systemd -v 1.0.1  && \
+    gem install fluent-plugin-systemd -v 1.0.1
 
 FROM ruby:2.7-slim-buster
 COPY --from=systemd /usr/local/bundle/ /usr/local/bundle 
