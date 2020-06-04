@@ -8,7 +8,7 @@ WORKDIR $PILOT_DIR
 COPY . $PILOT_DIR
 RUN go install 
 
-FROM ruby:2.7-slim-buster as gem
+FROM ruby:2.4-slim-buster as gem
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -27,7 +27,7 @@ RUN apt-get update && \
     gem install fluent-plugin-flowcounter  && \
     gem install fluent-plugin-systemd -v 1.0.1
 
-FROM ruby:2.7-slim-buster
+FROM ruby:2.4-slim-buster
 
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 COPY --from=gem /usr/local/bundle/ /usr/local/bundle 
@@ -43,11 +43,11 @@ RUN apt-get update && \
         rm -rf /tmp/*
 
 COPY --from=builder /go/bin/log-pilot /pilot/pilot
-COPY assets/entrypoint.py assets/fluentd/ assets/healthz /pilot/
+COPY assets/entrypoint assets/fluentd/ assets/healthz /pilot/
 RUN mkdir -p /etc/fluentd && \
     mv /pilot/plugins /etc/fluentd/ && \
-    chmod +x /pilot/pilot /pilot/entrypoint.py /pilot/healthz /pilot/config.fluentd &&\
-    mv /usr/local/bundle/bin/fluentd /usr/bin/fluentd
+    chmod +x /pilot/pilot /pilot/entrypoint /pilot/healthz /pilot/config.fluentd &&\
+    cp /usr/local/bundle/bin/fluentd /usr/bin/fluentd
 
 HEALTHCHECK CMD /pilot/healthz
 
@@ -56,4 +56,4 @@ VOLUME /pilot/pos
 WORKDIR /pilot/
 ENV PILOT_TYPE=fluentd
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
-CMD ["python","/pilot/entrypoint.py"]
+CMD ["python","/pilot/entrypoint"]

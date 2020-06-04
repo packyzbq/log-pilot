@@ -2,7 +2,7 @@ sudo: required
 services:
     - docker
 script:
-    - docker build . -t packyzbq/alpine:3.6-systemd -f Dockerfile.alpine
-    - docker build -t packyzbq/log-pilot:systemd -f Dockerfile.fluentd.alpine .
+    # - docker build . -t packyzbq/alpine:3.6-systemd -f Dockerfile.alpine
+    - docker build -t packyzbq/log-pilot:systemd -f Dockerfile.fluentd .
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWD
-    - docker push packyzbq/log-pilot:systemd-alpine
+    - docker push packyzbq/log-pilot:systemd-2.4
