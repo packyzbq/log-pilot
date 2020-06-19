@@ -18,7 +18,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends g++ gcc make && \
     echo 'gem: --no-document' >> /etc/gemrc && \
     gem install fluentd -v 1.4.2  && \
-    gem install fluent-plugin-elasticsearch -v ">=2.0.0"  && \
+    gem install fluent-plugin-elasticsearch -v 3.5.6  && \
     gem install gelf -v "~> 3.0.0"  && \
     gem install aliyun_sls_sdk -v ">=0.0.9"  && \
     gem install remote_syslog_logger -v ">=1.0.1"  && \
