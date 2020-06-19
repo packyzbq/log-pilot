@@ -17,9 +17,7 @@ SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 RUN apt-get update && \
     apt-get install -y --no-install-recommends g++ gcc make && \
     echo 'gem: --no-document' >> /etc/gemrc && \
-    gem install elasticsearch -v 6.6.1 && \
-    gem install elasticsearch-api -v 6.6.1 && \
-    gem install elasticsearch-transport -v 6.6.1 && \
+    gem install elasticsearch -v 6.8.2 && \
     gem install fluentd -v 1.4.2  && \
     gem install fluent-plugin-elasticsearch -v 3.5.6  && \
     gem install gelf -v "~> 3.0.0"  && \
