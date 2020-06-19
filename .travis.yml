@@ -3,6 +3,6 @@ services:
     - docker
 script:
     # - docker build . -t packyzbq/alpine:3.6-systemd -f Dockerfile.alpine
-    - docker build -t packyzbq/log-pilot:fluentd-1.4.2 -f Dockerfile.fluentd .
+    - docker build -t packyzbq/log-pilot:fluentd-test -f Dockerfile.fluentd .
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWD
-    - docker push packyzbq/log-pilot:fluentd-1.4.2
+    - docker push packyzbq/log-pilot:fluentd-test
