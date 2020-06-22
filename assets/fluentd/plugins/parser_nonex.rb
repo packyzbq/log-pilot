@@ -25,6 +25,7 @@ module Fluent
 
       desc 'Field name to contain logs'
       config_param :message_key, :string, default: 'message'
+      config_param :time_key, :string, default: 'time'
 
       def parse(text)
         record = {}
