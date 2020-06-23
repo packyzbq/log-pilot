@@ -6,7 +6,8 @@ ARG GOARCH=amd64
 # RUN set -ex && apk add --no-cache make git
 WORKDIR $PILOT_DIR
 COPY . $PILOT_DIR
-RUN go build
+RUN go mod tidy &&\
+    go build
 
 FROM ruby:2.4-slim-buster as gem
 
