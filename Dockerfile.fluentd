@@ -1,6 +1,6 @@
 FROM golang:1.13.12-buster as builder
 
-ENV PILOT_DIR /go/src/github.com/AliyunContainerService/log-pilot
+ENV PILOT_DIR /go/src/github.com/packyzbq/log-pilot
 ARG GOOS=linux
 ARG GOARCH=amd64
 # RUN set -ex && apk add --no-cache make git
