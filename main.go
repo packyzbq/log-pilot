@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"github.com/packyzbq/log-pilot/pilot"
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"io/ioutil"
+	"log-pilot/pilot"
 	"os"
 	"path/filepath"
 )
