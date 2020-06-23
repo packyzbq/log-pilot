@@ -25,15 +25,14 @@ module Fluent
 
       desc 'Field name to contain logs'
       config_param :message_key, :string, default: 'message'
-      config_param :time_key, :string, default: 'time'
 
       def parse(text)
         record = {}
         record[@message_key] = text
         time = Fluent::EventTime.now
-        # if @time_key && @keep_time_key
-        record['time'] = Time.now.strftime '%Y-%m-%dT%H:%M:%S.%L'
-        # end
+        if @time_key && @keep_time_key
+            record[@time_key] = Time.now.strftime '%Y-%m-%dT%H:%M:%S.%NZ'
+        end
         yield time, record
       end
     end
