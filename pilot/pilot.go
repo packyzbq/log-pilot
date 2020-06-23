@@ -14,12 +14,12 @@ import (
 	"text/template"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/events"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/api/types/mount"
 	k8s "github.com/docker/docker/client"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 )
 
@@ -572,6 +572,7 @@ func (p *Pilot) parseLogConfig(name string, info *LogInfoNode, jsonLogPath strin
 	}
 
 	formatConfig, err := Convert(format)
+	fmt.Println(formatConfig)
 	if err != nil {
 		return nil, fmt.Errorf("in log %s: format error: %v", name, err)
 	}
@@ -629,10 +630,12 @@ func (p *Pilot) parseLogConfig(name string, info *LogInfoNode, jsonLogPath strin
 
 	if formatConfig["time_key"] == "" {
 		cfg.EstimateTime = true
-		cfg.FormatConfig["time_key"] = "_timestamp"
+		cfg.FormatConfig["time_key"] = "time"
+		fmt.Println("==========set time_key")
 	}
 	if formatConfig["time_format"] == "" {
 		cfg.FormatConfig["time_format"] = "%Y-%m-%dT%H:%M:%S.%NZ"
+		fmt.Println("==========set time format")
 	}
 	return cfg, nil
 }
