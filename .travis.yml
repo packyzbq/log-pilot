@@ -4,6 +4,6 @@ services:
 script:
     # - docker build . -t packyzbq/alpine:3.6-systemd -f Dockerfile.alpine
     - cat assets/fluentd/plugins/parser_nonex.rb
-    - docker build -t packyzbq/log-pilot:fluentd-test -f Dockerfile.fluentd .
-    - docker login -u $DOCKER_USER -p $DOCKER_PASSWD
-    - docker push packyzbq/log-pilot:fluentd-test
+    - docker build -t registry.cn-shanghai.aliyuncs.com/packyzbq/log-pilot:fluentd-test -f Dockerfile.fluentd .
+    - docker login -u $ALI_DOCKER_USER -p $ALI_DOCKER_PASSWD registry.cn-shanghai.aliyuncs.com
+    - docker push registry.cn-shanghai.aliyuncs.com/packyzbq/log-pilot:fluentd-test
