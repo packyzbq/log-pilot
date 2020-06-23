@@ -568,7 +568,7 @@ func (p *Pilot) parseLogConfig(name string, info *LogInfoNode, jsonLogPath strin
 
 	format := info.children["format"]
 	if format == nil || format.value == "none" {
-		format = newLogInfoNode("none")
+		format = newLogInfoNode("nonex")
 	}
 
 	formatConfig, err := Convert(format)
@@ -630,6 +630,9 @@ func (p *Pilot) parseLogConfig(name string, info *LogInfoNode, jsonLogPath strin
 	if formatConfig["time_key"] == "" {
 		cfg.EstimateTime = true
 		cfg.FormatConfig["time_key"] = "_timestamp"
+	}
+	if formatConfig["time_format"] == "" {
+		cfg.FormatConfig["time_format"] = "%Y-%m-%dT%H:%M:%S.%NZ"
 	}
 	return cfg, nil
 }
