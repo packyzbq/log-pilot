@@ -30,10 +30,10 @@ module Fluent
       def parse(text)
         record = {}
         record[@message_key] = text
-        time = @estimate_current_event ? Fluent::EventTime.now : nil
-        if @time_key && @keep_time_key
-            record[@time_key] = Time.now.strftime '%Y-%m-%dT%H:%M:%S.%L'
-        end
+        time = Fluent::EventTime.now
+        # if @time_key && @keep_time_key
+        record['time'] = Time.now.strftime '%Y-%m-%dT%H:%M:%S.%L'
+        # end
         yield time, record
       end
     end
