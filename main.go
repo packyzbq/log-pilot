@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"github.com/AliyunContainerService/log-pilot/pilot"
+	"github.com/packyzbq/log-pilot/pilot"
 	log "github.com/Sirupsen/logrus"
 	"io/ioutil"
 	"os"
