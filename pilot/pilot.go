@@ -568,7 +568,7 @@ func (p *Pilot) parseLogConfig(name string, info *LogInfoNode, jsonLogPath strin
 
 	format := info.children["format"]
 	if format == nil || format.value == "none" {
-		format = newLogInfoNode("nonex")
+		format = newLogInfoNode("none")
 	}
 
 	formatConfig, err := Convert(format)
