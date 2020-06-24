@@ -24,7 +24,7 @@ module Fluent
       Plugin.register_parser('nonex', self)
 
       desc 'Field name to contain logs'
-      config_param :message_key, :string, default: 'message'
+      config_param :message_key, :string, default: 'log'
 
       def parse(text)
         record = {}

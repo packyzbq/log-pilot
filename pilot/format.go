@@ -46,7 +46,7 @@ func init() {
 	}
 
 	Register("nonex", simpleConverter([]string{"time_key", "time_format"}))
-	Register("none", simpleConverter([]string{"time_key", "time_format"}))
+	Register("none", simpleConverter([]string{}))
 	Register("csv", simpleConverter([]string{"time_key", "time_format", "keys"}))
 	Register("json", simpleConverter([]string{"time_key", "time_format"}))
 	Register("regexp", simpleConverter([]string{"time_key", "time_format"}))
