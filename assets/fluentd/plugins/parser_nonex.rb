@@ -31,7 +31,7 @@ module Fluent
         record[@message_key] = text
         time = Fluent::EventTime.now
         if @time_key && @keep_time_key
-            record[@time_key] = Time.now.strftime '%Y-%m-%dT%H:%M:%S.%NZ'
+            record[@time_key] = Time.now.getutc.strftime '%Y-%m-%dT%H:%M:%S.%NZ'
         end
         yield time, record
       end
