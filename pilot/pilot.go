@@ -637,9 +637,6 @@ func (p *Pilot) parseLogConfig(name string, info *LogInfoNode, jsonLogPath strin
 		cfg.FormatConfig["time_format"] = "%Y-%m-%dT%H:%M:%S.%NZ"
 		// fmt.Println("==========set time format")
 	}
-	if format.value == "nonex" {
-		formatConfig["filename"] = file
-	}
 	return cfg, nil
 }
 

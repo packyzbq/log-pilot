@@ -3,7 +3,7 @@
   @type tail
   tag docker.{{ $.containerId }}.{{ .Name }}
   path {{ .HostDir }}/{{ .File }}
-
+  path_key tailed_path
   <parse>
   {{if .Stdout}}
   @type json
@@ -30,6 +30,7 @@
   @type record_transformer
   enable_ruby true
   <record>
+    log_file "${record['tailed_path']}"
     host "#{Socket.gethostname}"
     {{range $key, $value := .Tags}}
     {{ $key }} {{ $value }}
