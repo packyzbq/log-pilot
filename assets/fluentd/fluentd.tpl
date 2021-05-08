@@ -22,7 +22,7 @@
   keep_time_key true
   </parse>
 
-  read_from_head true
+  read_from_head false
   pos_file /pilot/pos/{{ $.containerId }}.{{ .Name }}.pos
 </source>
 

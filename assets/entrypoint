@@ -40,7 +40,7 @@ def run():
     else:
         tpl_config = "/pilot/fluentd.tpl"
 
-    os.execve('/pilot/pilot', ['/pilot/pilot', '-template', tpl_config, '-base', base, '-log-level', 'debug'],
+    os.execve('/pilot/pilot', ['/pilot/pilot', '-template', tpl_config, '-base', base, '-log-level', 'info'],
               os.environ)
 
 

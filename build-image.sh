@@ -13,6 +13,7 @@ build()
 case $1 in
 fluentd)
     build fluentd
+    docker save log-pilot:latest > ./log-pilot.tar
     ;;
 *)
     build filebeat
