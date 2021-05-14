@@ -21,9 +21,8 @@
   {{end}}
   keep_time_key true
   </parse>
-
-  read_from_head false
-  pos_file /pilot/pos/{{ $.containerId }}.{{ .Name }}.pos
+  read_from_head true
+  pos_file /var/log/fluentd_pos/{{ $.containerId }}.{{ .Name }}.pos
 </source>
 
 <filter docker.{{ $.containerId }}.{{ .Name }}>

@@ -1,9 +1,12 @@
 #!/bin/bash
 
+echo "======start config.fluentd========================="
 set -e
 cd $(dirname $0)
+echo `pwd`
 
 FLUENTD_CONFIG=/etc/fluentd/fluentd.conf
+echo "$FLUENTD_CONFIG"
 
 assert_not_empty(){
     arg=$1
@@ -13,13 +16,18 @@ assert_not_empty(){
         exit 1
     fi
 }
+#rm -rf "$FLUENTD_CONFIG"
 
 if [ -f "$FLUENTD_CONFIG" ]; then
+    #-f file　　　　　文件为正规文件为真
+    #if the file exist :exit
+    echo "FLUENTD_CONFIG IS NULL.....EXIT"
     exit
 fi
 
 mkdir -p /etc/fluentd
 echo "@include conf.d/*.conf" >> $FLUENTD_CONFIG
+
 
 
 bufferd_output(){
@@ -230,9 +238,20 @@ aggregate all
 EOF
 }
 
+
+
+echo "FLUENTD_OUTPUT:  $FLUENTD_OUTPUT"
+echo "LOGGING_OUTPUT:  $LOGGING_OUTPUT"
+
 if [ -n "$FLUENTD_OUTPUT" ]; then
+    #如果string 非空(非0），返回0(true)
     LOGGING_OUTPUT="$FLUENTD_OUTPUT"
 fi
+echo "FLUENTD_OUTPUT:  $FLUENTD_OUTPUT"
+echo "LOGGING_OUTPUT:  $LOGGING_OUTPUT"
+
+
+
 
 case "$LOGGING_OUTPUT" in
     elasticsearch)
