@@ -9,9 +9,12 @@ require (
 	github.com/elastic/go-ucfg v0.8.3
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/sirupsen/logrus v1.6.0
+	github.com/sirupsen/logrus v1.4.1
 	golang.org/x/net v0.0.0-20200602114024-627f9648deb9
+	gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
+
+replace github.com/sirupsen/logrus v1.8.1 => github.com/Sirupsen/logrus v1.8.1
 
 go 1.13

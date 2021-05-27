@@ -1,8 +1,8 @@
 package pilot
 
 import (
-	log "github.com/Sirupsen/logrus"
 	"github.com/docker/docker/api/types"
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/check.v1"
 	"os"
 	"testing"

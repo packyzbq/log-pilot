@@ -30,6 +30,7 @@ def mount_points():
 def cleanup():
     umounts = mount_points()
     for volume in sorted(umounts, reverse=True):
+        print(volume)
         umount(volume)
 
 
@@ -40,17 +41,18 @@ def run():
     else:
         tpl_config = "/pilot/fluentd.tpl"
 
-    os.execve('/pilot/pilot', ['/pilot/pilot', '-template', tpl_config, '-base', base, '-log-level', 'debug'],
-              os.environ)
+    os.execve('/pilot/pilot', ['/pilot/pilot', '-template', tpl_config, '-base', base, '-log-level', 'info'],os.environ)
 
 
 def config():
+    for env_key in os.environ:
+        print(env_key + " ================> " + os.environ.get(env_key))
     pilot_type = os.environ.get(ENV_PILOT_TYPE)
     if pilot_filebeat == pilot_type:
-        print "start log-pilot:", pilot_filebeat
+        print("start log-pilot:pilot_filebeat" )
         subprocess.check_call(['/pilot/config.filebeat'])
     else:
-        print "start log-pilot:", pilot_fluentd
+        print("start log-pilot:pilot_fluentd")
         subprocess.check_call(['/pilot/config.fluentd'])
 
 
